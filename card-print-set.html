@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>कार्ड प्रिंट सेट – जया स्टूडियो एंड प्रिंटर्स</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3f0fa; --card:#ffffff; --ink:#1e1535; --muted:#6a6383; --line:#ddd5ee;
+  --pri:#5b2fc9; --pri-d:#4a22a8; --pri-l:#ede7fb; --head:#2b1466; --r:12px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hind","Noto Sans Devanagari","Mangal",system-ui,sans-serif;font-size:16px;line-height:1.5}
+h1,h2{font-family:"Hind","Noto Sans Devanagari","Mangal",sans-serif;margin:0;line-height:1.2;font-weight:700}
+button,select,input{font:inherit}
+:focus-visible,.filebtn:focus-within{outline:3px solid #a78bfa;outline-offset:2px}
+
+.top{display:flex;flex-wrap:wrap;gap:6px 24px;align-items:end;justify-content:space-between;padding:20px 24px 18px;background:var(--head);color:#fff}
+.shop{margin:0;color:#cdb8ff;font-weight:500;font-size:15px}
+.top h1{font-size:30px}
+.privacy{margin:0;color:#d6cbf5;font-size:14px;max-width:36ch}
+
+.layout{display:grid;gap:20px;padding:20px;max-width:1280px;margin:0 auto}
+@media(min-width:980px){.layout{grid-template-columns:minmax(0,1fr) minmax(0,440px);align-items:start}.sticky{position:sticky;top:16px}}
+
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(43,20,102,.06)}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.panel h2{font-size:21px;color:var(--head)}
+.side-tag{display:inline-block;background:var(--pri);color:#fff;border-radius:6px;padding:1px 10px;margin-right:8px;font-size:17px}
+
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:6px;background:var(--pri);color:#fff;border:2px solid var(--pri);border-radius:8px;padding:9px 18px;font-weight:600;cursor:pointer;text-decoration:none;min-height:44px}
+.btn:hover{background:var(--pri-d);border-color:var(--pri-d)}
+.btn.ghost{background:#fff;color:var(--pri)}
+.btn.ghost:hover{background:var(--pri-l)}
+.btn.small{padding:5px 12px;min-height:38px;font-size:15px}
+.btn[disabled]{opacity:.4;cursor:not-allowed;pointer-events:none}
+.filebtn{overflow:hidden}
+.filebtn input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:100px}
+
+.drop{border:2px dashed #b9a8e6;border-radius:var(--r);padding:24px 16px;text-align:center;background:#faf8ff}
+.drop.over{border-color:var(--pri);background:var(--pri-l)}
+.drop p{margin:0 0 14px;color:var(--muted)}
+.drop .row{justify-content:center}
+
+.status{margin:0 0 10px;color:var(--pri);font-weight:600}
+.status:empty{display:none}
+.status.err{color:#b3261e}
+.hint{margin:0 0 8px;color:var(--muted);font-size:15px}
+.cropwrap{background:#1a1a1a;border-radius:8px;overflow:hidden;line-height:0;margin-bottom:10px}
+.cropwrap canvas{width:100%;height:auto;touch-action:none;cursor:crosshair}
+.result{margin:14px 0;text-align:center;background:repeating-conic-gradient(#ebe6f6 0 25%,#f7f4fc 0 50%) 0 0/16px 16px;border-radius:8px;padding:12px}
+.result canvas{max-width:100%;height:auto;box-shadow:0 2px 10px rgba(43,20,102,.25);background:#fff}
+.result small{display:block;color:var(--muted);margin-top:6px}
+
+.sliders{display:grid;gap:4px 24px}
+@media(min-width:620px){.sliders{grid-template-columns:1fr 1fr}}
+.sl{display:grid;grid-template-columns:96px 1fr 52px;align-items:center;gap:8px;font-size:15px}
+.sl output{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+input[type=range]{accent-color:var(--pri);width:100%;min-height:32px}
+.chk{display:flex;align-items:center;gap:8px;font-size:15px;min-height:36px}
+.chk input{accent-color:var(--pri);width:20px;height:20px}
+
+.settings-grid{display:grid;gap:12px 20px}
+@media(min-width:620px){.settings-grid{grid-template-columns:1fr 1fr}}
+.field{display:grid;gap:4px;font-size:15px}
+.field>span{color:var(--muted)}
+select{background:#fff;color:var(--ink);border:1px solid #c9bde6;border-radius:8px;padding:8px 10px;min-height:44px}
+
+.sheetwrap{position:relative;background:#e4ddf3;border-radius:var(--r);padding:14px}
+.sheetwrap canvas{display:block;width:100%;height:auto;background:#fff;box-shadow:0 6px 22px rgba(43,20,102,.28)}
+.empty{position:absolute;inset:14px;display:grid;place-items:center;text-align:center;padding:24px;color:#8a82a3;margin:0;font-size:17px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.actions .wide{grid-column:1/-1}
+.tip{margin:10px 0 0;color:var(--muted);font-size:14px}
+.tip b{color:var(--pri);font-weight:600}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div>
+    <p class="shop">जया स्टूडियो एंड प्रिंटर्स, सेलूद</p>
+    <h1>कार्ड प्रिंट सेट</h1>
+  </div>
+  <p class="privacy">फोटो सिर्फ इसी डिवाइस में रहती है, कहीं अपलोड नहीं होती।</p>
+</header>
+
+<main class="layout">
+  <div class="left">
+    <div id="panels"></div>
+
+    <section class="panel" id="settings">
+      <div class="panel-head"><h2>A4 सेटिंग</h2></div>
+      <div class="settings-grid">
+        <label class="field"><span>कार्ड कैसे लगें</span>
+          <select id="optLayout">
+            <option value="stack">ऊपर-नीचे (आगे ऊपर, पीछे नीचे)</option>
+            <option value="side">अगल-बगल</option>
+          </select>
+        </label>
+        <label class="field"><span>कार्ड का साइज़</span>
+          <select id="optScale">
+            <option value="1">असली साइज़ (85.6 × 54 mm)</option>
+            <option value="1.1">10% बड़ा</option>
+            <option value="1.25">25% बड़ा</option>
+            <option value="1.5">50% बड़ा</option>
+          </select>
+        </label>
+        <label class="field"><span>पेज पर जगह</span>
+          <select id="optPos">
+            <option value="center">पेज के बीच में</option>
+            <option value="top">ऊपर से</option>
+          </select>
+        </label>
+        <label class="sl" style="grid-template-columns:110px 1fr 52px">
+          <span>दोनों के बीच दूरी</span>
+          <input type="range" id="optGap" min="0" max="40" value="10">
+          <output id="optGapOut">10 mm</output>
+        </label>
+        <label class="chk"><input type="checkbox" id="optBorder" checked> काटने के लिए पतली बॉर्डर लाइन</label>
+      </div>
+    </section>
+  </div>
+
+  <aside class="right">
+    <div class="sticky">
+      <div class="sheetwrap">
+        <canvas id="a4" width="794" height="1123" aria-label="A4 पेज का प्रीव्यू"></canvas>
+        <p class="empty" id="empty">आगे या पीछे की फोटो डालते ही यहाँ A4 पेज दिखेगा।</p>
+      </div>
+      <div class="actions">
+        <button class="btn wide" id="btnPrint" disabled>प्रिंट करें</button>
+        <button class="btn ghost" id="btnPdf" disabled>PDF डाउनलोड</button>
+        <button class="btn ghost" id="btnJpg" disabled>JPG डाउनलोड</button>
+        <button class="btn ghost" id="btnPng" disabled>PNG डाउनलोड</button>
+        <button class="btn ghost" id="btnFront" disabled>सिर्फ आगे (PNG)</button>
+        <button class="btn ghost" id="btnBack" disabled>सिर्फ पीछे (PNG)</button>
+      </div>
+      <p class="tip">प्रिंट करते समय: <b>Paper A4</b>, <b>Scale 100% / Actual size</b>, <b>Margins None</b> चुनें, तभी कार्ड असली साइज़ में आएगा।</p>
+    </div>
+  </aside>
+</main>
+
+<script>
+"use strict";
+window.addEventListener('error', e => alert('गड़बड़: ' + e.message));
+const $ = (s, el = document) => el.querySelector(s);
+const CARD_L = 85.6;                 // mm, card long side
+const OUT_L = 1200;                  // px, cleaned card long side
+const OUT_S = Math.round(OUT_L * 54 / 85.6);
+
+const CONTROLS = [
+  ['autoStr', 'ऑटो सफ़ाई', 0, 100, 80, '%'],
+  ['bright',  'चमक',       -40, 40, 0, ''],
+  ['contrast','कंट्रास्ट',  70, 160, 110, '%'],
+  ['sat',     'रंग',        0, 200, 110, '%'],
+  ['sharp',   'शार्पनेस',   0, 200, 70, '%']
+];
+const DEFAULTS = { autoStr: 80, bright: 0, contrast: 110, sat: 110, sharp: 70, gray: false };
+
+/* ---------- geometry: corners, homography, warp ---------- */
+function orderQuad(p) {
+  const s = p.map(q => q.x + q.y), d = p.map(q => q.x - q.y);
+  const tl = p[s.indexOf(Math.min(...s))], br = p[s.indexOf(Math.max(...s))];
+  const tr = p[d.indexOf(Math.max(...d))], bl = p[d.indexOf(Math.min(...d))];
+  const r = [tl, tr, br, bl];
+  return new Set(r).size === 4 ? r : p.slice();
+}
+const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+
+function solve8(A, b) {
+  const n = 8;
+  for (let i = 0; i < n; i++) A[i].push(b[i]);
+  for (let c = 0; c < n; c++) {
+    let m = c;
+    for (let r = c + 1; r < n; r++) if (Math.abs(A[r][c]) > Math.abs(A[m][c])) m = r;
+    [A[c], A[m]] = [A[m], A[c]];
+    const pv = A[c][c] || 1e-12;
+    for (let k = c; k <= n; k++) A[c][k] /= pv;
+    for (let r = 0; r < n; r++) if (r !== c) {
+      const f = A[r][c];
+      if (f) for (let k = c; k <= n; k++) A[r][k] -= f * A[c][k];
+    }
+  }
+  return A.map(r => r[n]);
+}
+function homography(q, W, H) {
+  const u = [0, W, W, 0], v = [0, 0, H, H], A = [], b = [];
+  for (let i = 0; i < 4; i++) {
+    const x = q[i].x, y = q[i].y;
+    A.push([u[i], v[i], 1, 0, 0, 0, -x * u[i], -x * v[i]]); b.push(x);
+    A.push([0, 0, 0, u[i], v[i], 1, -y * u[i], -y * v[i]]); b.push(y);
+  }
+  return solve8(A, b);
+}
+function warp(srcData, quad, W, H) {
+  const h = homography(quad, W, H);
+  const sw = srcData.width, sh = srcData.height, sd = srcData.data;
+  const out = new ImageData(W, H), od = out.data;
+  let o = 0;
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < W; x++, o += 4) {
+      const den = h[6] * x + h[7] * y + 1;
+      let sx = (h[0] * x + h[1] * y + h[2]) / den;
+      let sy = (h[3] * x + h[4] * y + h[5]) / den;
+      sx = Math.min(Math.max(sx, 0), sw - 1.001);
+      sy = Math.min(Math.max(sy, 0), sh - 1.001);
+      const x0 = sx | 0, y0 = sy | 0, fx = sx - x0, fy = sy - y0;
+      const i00 = (y0 * sw + x0) * 4, i10 = i00 + 4, i01 = i00 + sw * 4, i11 = i01 + 4;
+      const w00 = (1 - fx) * (1 - fy), w10 = fx * (1 - fy), w01 = (1 - fx) * fy, w11 = fx * fy;
+      od[o]     = sd[i00] * w00 + sd[i10] * w10 + sd[i01] * w01 + sd[i11] * w11;
+      od[o + 1] = sd[i00 + 1] * w00 + sd[i10 + 1] * w10 + sd[i01 + 1] * w01 + sd[i11 + 1] * w11;
+      od[o + 2] = sd[i00 + 2] * w00 + sd[i10 + 2] * w10 + sd[i01 + 2] * w01 + sd[i11 + 2] * w11;
+      od[o + 3] = 255;
+    }
+  }
+  return out;
+}
+
+/* ---------- auto corner guess ---------- */
+function otsuT(g, lo = 0, hi = 255) {
+  const hist = new Array(256).fill(0); let tot = 0;
+  for (let i = 0; i < g.length; i++) { const v = g[i]; if (v >= lo && v <= hi) { hist[v]++; tot++; } }
+  let sum = 0; for (let i = lo; i <= hi; i++) sum += i * hist[i];
+  let wB = 0, sB = 0, best = -1, t = lo;
+  for (let i = lo; i <= hi; i++) {
+    wB += hist[i]; if (!wB) continue;
+    const wF = tot - wB; if (!wF) break;
+    sB += i * hist[i];
+    const mB = sB / wB, mF = (sum - sB) / wF, b = wB * wF * (mB - mF) * (mB - mF);
+    if (b > best) { best = b; t = i; }
+  }
+  return t;
+}
+function autoCorners(c) {
+  const s = Math.min(1, 320 / Math.max(c.width, c.height));
+  const tw = Math.max(8, Math.round(c.width * s)), th = Math.max(8, Math.round(c.height * s));
+  const t = document.createElement('canvas'); t.width = tw; t.height = th;
+  const tc = t.getContext('2d'); tc.drawImage(c, 0, 0, tw, th);
+  const d = tc.getImageData(0, 0, tw, th).data, g = new Uint8Array(tw * th);
+  for (let i = 0; i < g.length; i++) g[i] = .299 * d[i * 4] + .587 * d[i * 4 + 1] + .114 * d[i * 4 + 2];
+  const t1 = otsuT(g), t2 = otsuT(g, Math.min(254, t1 + 1), 255);
+  const cx = tw >> 1, cy = th >> 1;
+  for (const thr of [t2, t1]) {
+    const bright = g[cy * tw + cx] > thr, mask = new Uint8Array(tw * th);
+    for (let i = 0; i < mask.length; i++) mask[i] = bright ? (g[i] > thr ? 1 : 0) : (g[i] <= thr ? 1 : 0);
+    let seed = -1;
+    if (mask[cy * tw + cx]) seed = cy * tw + cx;
+    else {
+      const R = Math.round(Math.min(tw, th) * .15);
+      for (let r = 2; r <= R && seed < 0; r += 2)
+        for (const [dx, dy] of [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1]]) {
+          const x = cx + dx * r, y = cy + dy * r;
+          if (x >= 0 && y >= 0 && x < tw && y < th && mask[y * tw + x]) { seed = y * tw + x; break; }
+        }
+    }
+    if (seed < 0) continue;
+    const seen = new Uint8Array(tw * th), stack = [seed]; seen[seed] = 1;
+    let area = 0, tl = null, br = null, tr = null, bl = null, a = 1e9, b = -1e9, c1 = -1e9, d1 = 1e9;
+    while (stack.length) {
+      const p = stack.pop(), x = p % tw, y = (p / tw) | 0; area++;
+      const sm = x + y, df = x - y;
+      if (sm < a) { a = sm; tl = { x, y }; } if (sm > b) { b = sm; br = { x, y }; }
+      if (df > c1) { c1 = df; tr = { x, y }; } if (df < d1) { d1 = df; bl = { x, y }; }
+      if (x > 0 && mask[p - 1] && !seen[p - 1]) { seen[p - 1] = 1; stack.push(p - 1); }
+      if (x < tw - 1 && mask[p + 1] && !seen[p + 1]) { seen[p + 1] = 1; stack.push(p + 1); }
+      if (y > 0 && mask[p - tw] && !seen[p - tw]) { seen[p - tw] = 1; stack.push(p - tw); }
+      if (y < th - 1 && mask[p + tw] && !seen[p + tw]) { seen[p + tw] = 1; stack.push(p + tw); }
+    }
+    const ratio = area / (tw * th);
+    if (ratio > .08 && ratio < .9) return [tl, tr, br, bl].map(q => ({ x: q.x / s, y: q.y / s }));
+  }
+  return null;
+}
+function defaultCorners(c) {
+  const w = c.width, h = c.height;
+  return [{x:w*.15,y:h*.2},{x:w*.85,y:h*.2},{x:w*.85,y:h*.8},{x:w*.15,y:h*.8}];
+}
+
+/* ---------- clean-up (colour, brightness, sharpness) ---------- */
+function enhance(img, p) {
+  const w = img.width, h = img.height, s = img.data, n = w * h;
+  const st = p.autoStr / 100, ct = p.contrast / 100, br = p.bright * 2.55, sat = p.sat / 100;
+  const lut = [0, 1, 2].map(() => new Uint8ClampedArray(256));
+  for (let c = 0; c < 3; c++) {
+    let lo = 0, hi = 255;
+    if (st > 0) {
+      const hist = new Uint32Array(256);
+      for (let i = c; i < s.length; i += 4) hist[s[i]]++;
+      const lim = n * 0.005; let acc = 0, l = 0, hh = 255;
+      for (let v = 0; v < 256; v++) { acc += hist[v]; if (acc > lim) { l = v; break; } }
+      acc = 0;
+      for (let v = 255; v >= 0; v--) { acc += hist[v]; if (acc > lim) { hh = v; break; } }
+      hh = Math.max(hh - 8, 40);
+      lo = l * st; hi = 255 - (255 - hh) * st;
+      if (hi - lo < 80) { const m = (hi + lo) / 2; lo = m - 40; hi = m + 40; }
+    }
+    for (let v = 0; v < 256; v++) {
+      let x = (v - lo) / (hi - lo) * 255;
+      lut[c][v] = (x - 128) * ct + 128 + br;
+    }
+  }
+  const out = new Uint8ClampedArray(s.length);
+  for (let i = 0; i < s.length; i += 4) {
+    let r = lut[0][s[i]], g = lut[1][s[i + 1]], b = lut[2][s[i + 2]];
+    const l = .299 * r + .587 * g + .114 * b;
+    if (p.gray) { r = g = b = l; }
+    else { r = l + (r - l) * sat; g = l + (g - l) * sat; b = l + (b - l) * sat; }
+    out[i] = r; out[i + 1] = g; out[i + 2] = b; out[i + 3] = 255;
+  }
+  if (p.sharp > 0) {
+    const amt = p.sharp / 100, o = out.slice();
+    for (let y = 1; y < h - 1; y++) {
+      for (let x = 1; x < w - 1; x++) {
+        const i = (y * w + x) * 4;
+        for (let c = 0; c < 3; c++) {
+          const k = i + c;
+          const bl = (o[k - 4 - w * 4] + o[k - w * 4] + o[k + 4 - w * 4] + o[k - 4] + o[k] + o[k + 4] + o[k - 4 + w * 4] + o[k + w * 4] + o[k + 4 + w * 4]) / 9;
+          out[k] = o[k] + amt * (o[k] - bl);
+        }
+      }
+    }
+  }
+  return new ImageData(out, w, h);
+}
+
+/* ---------- one side (front / back) ---------- */
+const sliderHTML = CONTROLS.map(([k, name, mn, mx, val, unit]) =>
+  `<label class="sl"><span>${name}</span><input type="range" min="${mn}" max="${mx}" value="${val}" data-k="${k}"><output>${val}${unit}</output></label>`
+).join('');
+
+const tpl = (key, tag, title) => `
+<section class="panel" id="p-${key}">
+  <div class="panel-head">
+    <h2><span class="side-tag">${tag}</span>${title}</h2>
+    <button class="btn ghost small" data-act="clear" hidden>हटाएँ</button>
+  </div>
+  <p class="status" data-role="status" role="status"></p>
+  <div class="drop" data-role="drop">
+    <p>कार्ड की फोटो यहाँ खींचकर छोड़ें, या चुनें</p>
+    <div class="row">
+      <label class="btn filebtn">फोटो चुनें<input type="file" accept="image/*" data-role="file"></label>
+      <label class="btn ghost filebtn">कैमरा से खींचें<input type="file" accept="image/*" capture="environment" data-role="cam"></label>
+    </div>
+  </div>
+  <div class="editor" data-role="editor" hidden>
+    <p class="hint">बैंगनी गोलों को कार्ड के चारों कोनों पर खींचकर रखें।</p>
+    <div class="cropwrap"><canvas data-role="crop"></canvas></div>
+    <div class="row">
+      <button class="btn ghost small" data-act="auto">ऑटो कोने</button>
+      <button class="btn ghost small" data-act="rotL">↺ कार्ड घुमाएँ</button>
+      <button class="btn ghost small" data-act="rotR">↻ कार्ड घुमाएँ</button>
+      <label class="btn ghost small filebtn">दूसरी फोटो<input type="file" accept="image/*" data-role="file2"></label>
+    </div>
+    <div class="result"><canvas data-role="result"></canvas><small>साफ़ किया हुआ कार्ड</small></div>
+    <div class="sliders">${sliderHTML}
+      <label class="chk"><input type="checkbox" data-k="gray"> काला-सफ़ेद</label>
+    </div>
+    <div class="row" style="margin-top:8px"><button class="btn ghost small" data-act="reset">सेटिंग रीसेट</button></div>
+  </div>
+</section>`;
+
+class Side {
+  constructor(key, tag, title) {
+    this.key = key; this.src = null; this.srcData = null; this.corners = null;
+    this.base = null; this.card = null; this.rot = 0; this.q = 1; this.p = { ...DEFAULTS };
+    const w = document.createElement('div'); w.innerHTML = tpl(key, tag, title);
+    this.el = w.firstElementChild; $('#panels').appendChild(this.el);
+    this.drop = $('[data-role=drop]', this.el); this.editor = $('[data-role=editor]', this.el);
+    this.crop = $('[data-role=crop]', this.el); this.result = $('[data-role=result]', this.el);
+    this.clearBtn = $('[data-act=clear]', this.el);
+    for (const r of ['file', 'cam', 'file2'])
+      $(`[data-role=${r}]`, this.el).addEventListener('change', e => {
+        const inp = e.target, f = inp.files && inp.files[0];
+        if (!f) { this.say('कोई फोटो नहीं चुनी गई।', true); return; }
+        this.loadFile(f, () => { try { inp.value = ''; } catch (_) {} });
+      });
+    this.el.addEventListener('dragover', e => { e.preventDefault(); this.drop.classList.add('over'); });
+    this.el.addEventListener('dragleave', () => this.drop.classList.remove('over'));
+    this.el.addEventListener('drop', e => { e.preventDefault(); this.drop.classList.remove('over'); this.loadFile(e.dataTransfer.files[0]); });
+    this.el.addEventListener('click', e => { const b = e.target.closest('[data-act]'); if (b) this.act(b.dataset.act); });
+    this.el.querySelectorAll('input[data-k]').forEach(inp => inp.addEventListener('input', () => {
+      const k = inp.dataset.k;
+      if (inp.type === 'checkbox') this.p[k] = inp.checked;
+      else {
+        this.p[k] = +inp.value;
+        const c = CONTROLS.find(x => x[0] === k); inp.nextElementSibling.textContent = inp.value + c[5];
+      }
+      this.queueEnhance();
+    }));
+    this.bindCrop();
+  }
+  act(a) {
+    if (a === 'clear') return this.clear();
+    if (a === 'auto') { this.corners = autoCorners(this.src) || defaultCorners(this.src); this.draw(); return this.rewarp(1); }
+    if (a === 'rotL') { this.rot = (this.rot + 3) % 4; return this.recompose(); }
+    if (a === 'rotR') { this.rot = (this.rot + 1) % 4; return this.recompose(); }
+    if (a === 'reset') {
+      this.p = { ...DEFAULTS };
+      this.el.querySelectorAll('input[data-k]').forEach(inp => {
+        const k = inp.dataset.k;
+        if (inp.type === 'checkbox') inp.checked = false;
+        else { inp.value = DEFAULTS[k]; inp.nextElementSibling.textContent = DEFAULTS[k] + CONTROLS.find(x => x[0] === k)[5]; }
+      });
+      this.queueEnhance();
+    }
+  }
+  say(msg, err) { const el = $('[data-role=status]', this.el); el.textContent = msg || ''; el.classList.toggle('err', !!err); }
+  loadFile(file, done) {
+    const fin = () => { if (done) done(); };
+    if (!file) return fin();
+    this.say('फोटो मिल गई, तैयार हो रही है…');
+    const fr = new FileReader();
+    fr.onerror = () => { this.say('फोटो पढ़ नहीं पाई। दूसरी फोटो चुनें।', true); fin(); };
+    fr.onload = () => {
+      const im = new Image();
+      im.onload = () => {
+        try {
+          const s = Math.min(1, 3200 / Math.max(im.naturalWidth, im.naturalHeight));
+          const c = document.createElement('canvas');
+          c.width = Math.round(im.naturalWidth * s); c.height = Math.round(im.naturalHeight * s);
+          c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+          this.setSource(c); this.say('');
+        } catch (err) { this.say('फोटो प्रोसेस नहीं हो पाई: ' + err.message, true); }
+        fin();
+      };
+      im.onerror = () => { this.say('यह फोटो खुल नहीं पाई। JPG या PNG फोटो चुनें।', true); fin(); };
+      im.src = fr.result;
+    };
+    fr.readAsDataURL(file);
+  }
+  setSource(c) {
+    this.src = c; this.srcData = c.getContext('2d').getImageData(0, 0, c.width, c.height);
+    this.rot = 0; this.corners = autoCorners(c) || defaultCorners(c);
+    this.drop.hidden = true; this.editor.hidden = false; this.clearBtn.hidden = false;
+    this.crop.width = Math.min(c.width, 900); this.crop.height = Math.round(c.height * this.crop.width / c.width);
+    this.draw(); this.rewarp(1);
+  }
+  clear() {
+    this.src = this.srcData = this.base = this.card = null;
+    this.drop.hidden = false; this.editor.hidden = true; this.clearBtn.hidden = true;
+    app.schedule();
+  }
+  /* crop canvas */
+  draw() {
+    const c = this.crop, x = c.getContext('2d'), k = c.width / this.src.width;
+    const rect = c.getBoundingClientRect(), f = rect.width ? c.width / rect.width : 1, R = 14 * f;
+    x.clearRect(0, 0, c.width, c.height); x.drawImage(this.src, 0, 0, c.width, c.height);
+    const q = orderQuad(this.corners).map(p => ({ x: p.x * k, y: p.y * k }));
+    x.beginPath(); x.rect(0, 0, c.width, c.height);
+    x.moveTo(q[0].x, q[0].y); q.slice(1).forEach(p => x.lineTo(p.x, p.y)); x.closePath();
+    x.fillStyle = 'rgba(0,0,0,.5)'; x.fill('evenodd');
+    x.beginPath(); x.moveTo(q[0].x, q[0].y); q.slice(1).forEach(p => x.lineTo(p.x, p.y)); x.closePath();
+    x.lineWidth = 5 * f; x.strokeStyle = '#fff'; x.stroke(); x.lineWidth = 2.5 * f; x.strokeStyle = '#7c3aed'; x.stroke();
+    for (const p of this.corners.map(p => ({ x: p.x * k, y: p.y * k }))) {
+      x.beginPath(); x.arc(p.x, p.y, R, 0, 7); x.fillStyle = 'rgba(124,58,237,.35)'; x.fill();
+      x.lineWidth = 5 * f; x.strokeStyle = '#fff'; x.stroke(); x.lineWidth = 2.5 * f; x.strokeStyle = '#7c3aed'; x.stroke();
+      x.beginPath(); x.arc(p.x, p.y, 2.5 * f, 0, 7); x.fillStyle = '#fff'; x.fill();
+    }
+  }
+  bindCrop() {
+    const c = this.crop; let drag = -1;
+    const pos = e => { const r = c.getBoundingClientRect(); return { x: (e.clientX - r.left) * c.width / r.width, y: (e.clientY - r.top) * c.height / r.height, f: c.width / r.width }; };
+    c.addEventListener('pointerdown', e => {
+      if (!this.src) return;
+      const p = pos(e), k = c.width / this.src.width; let best = -1, bd = 40 * p.f;
+      this.corners.forEach((q, i) => { const d = Math.hypot(q.x * k - p.x, q.y * k - p.y); if (d < bd) { bd = d; best = i; } });
+      if (best >= 0) { drag = best; c.setPointerCapture(e.pointerId); }
+    });
+    c.addEventListener('pointermove', e => {
+      if (drag < 0) return;
+      const p = pos(e), k = c.width / this.src.width;
+      this.corners[drag] = { x: Math.min(Math.max(p.x / k, 0), this.src.width), y: Math.min(Math.max(p.y / k, 0), this.src.height) };
+      this.draw(); this.queueWarp(0.5);
+    });
+    const end = () => { if (drag >= 0) { drag = -1; this.rewarp(1); } };
+    c.addEventListener('pointerup', end); c.addEventListener('pointercancel', end);
+  }
+  /* pipeline */
+  queueWarp(q) {
+    if (this._w) return; this._w = requestAnimationFrame(() => { this._w = 0; this.rewarp(q); });
+  }
+  queueEnhance() {
+    if (this._e) return; this._e = requestAnimationFrame(() => { this._e = 0; this.reenhance(); });
+  }
+  rewarp(q) {
+    if (!this.srcData) return;
+    const quad = orderQuad(this.corners);
+    const wide = (dist(quad[0], quad[1]) + dist(quad[3], quad[2])) >= (dist(quad[0], quad[3]) + dist(quad[1], quad[2]));
+    const L = Math.round(OUT_L * q), S = Math.round(OUT_S * q);
+    this.base = warp(this.srcData, quad, wide ? L : S, wide ? S : L);
+    this.reenhance();
+  }
+  reenhance() {
+    if (!this.base) return;
+    this.enh = enhance(this.base, this.p); this.recompose();
+  }
+  recompose() {
+    if (!this.enh) return;
+    const W = this.enh.width, H = this.enh.height, t = document.createElement('canvas');
+    t.width = W; t.height = H; t.getContext('2d').putImageData(this.enh, 0, 0);
+    const odd = this.rot % 2, cw = odd ? H : W, ch = odd ? W : H;
+    const card = document.createElement('canvas'); card.width = cw; card.height = ch;
+    const x = card.getContext('2d'); x.translate(cw / 2, ch / 2); x.rotate(this.rot * Math.PI / 2); x.drawImage(t, -W / 2, -H / 2);
+    this.card = card;
+    this.result.width = cw; this.result.height = ch; this.result.getContext('2d').drawImage(card, 0, 0);
+    app.schedule();
+  }
+}
+
+/* ---------- A4 page ---------- */
+const sides = { front: new Side('front', 'आगे', 'आगे की तरफ'), back: new Side('back', 'पीछे', 'पीछे की तरफ') };
+
+const opts = () => ({
+  layout: $('#optLayout').value, scale: +$('#optScale').value, pos: $('#optPos').value,
+  gap: +$('#optGap').value, border: $('#optBorder').checked
+});
+
+function drawPage(ctx, pxmm, o) {
+  const W = 210 * pxmm, H = 297 * pxmm;
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, W, H);
+  const cards = [sides.front.card, sides.back.card].filter(Boolean);
+  if (!cards.length) return false;
+  let dims = cards.map(c => { const L = CARD_L * o.scale; return c.width >= c.height ? { w: L, h: L * c.height / c.width } : { h: L, w: L * c.width / c.height }; });
+  const stack = o.layout === 'stack', n = dims.length;
+  let totW = stack ? Math.max(...dims.map(d => d.w)) : dims.reduce((a, d) => a + d.w, 0) + o.gap * (n - 1);
+  let totH = stack ? dims.reduce((a, d) => a + d.h, 0) + o.gap * (n - 1) : Math.max(...dims.map(d => d.h));
+  const f = Math.min(1, 190 / totW, 277 / totH);
+  dims = dims.map(d => ({ w: d.w * f, h: d.h * f })); const gap = o.gap * f; totW *= f; totH *= f;
+  ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+  let x0 = (210 - totW) / 2, y0 = o.pos === 'top' ? 15 : (297 - totH) / 2;
+  cards.forEach((c, i) => {
+    const d = dims[i]; let x, y;
+    if (stack) { x = (210 - d.w) / 2; y = y0; y0 += d.h + gap; }
+    else { x = x0; y = (o.pos === 'top' ? 15 : (297 - Math.max(...dims.map(q => q.h))) / 2); x0 += d.w + gap; }
+    ctx.drawImage(c, x * pxmm, y * pxmm, d.w * pxmm, d.h * pxmm);
+    if (o.border) { ctx.lineWidth = Math.max(1, .25 * pxmm); ctx.strokeStyle = '#8a8a8a'; ctx.strokeRect(x * pxmm, y * pxmm, d.w * pxmm, d.h * pxmm); }
+  });
+  return true;
+}
+
+const app = {
+  pending: 0,
+  schedule() { if (this.pending) return; this.pending = requestAnimationFrame(() => { this.pending = 0; this.render(); }); },
+  render() {
+    const cv = $('#a4'), ok = drawPage(cv.getContext('2d'), cv.width / 210, opts());
+    $('#empty').hidden = ok;
+    ['btnPrint', 'btnPdf', 'btnJpg', 'btnPng'].forEach(id => $('#' + id).disabled = !ok);
+    $('#btnFront').disabled = !sides.front.card; $('#btnBack').disabled = !sides.back.card;
+  }
+};
+
+['optLayout', 'optScale', 'optPos', 'optBorder'].forEach(id => $('#' + id).addEventListener('input', () => app.schedule()));
+$('#optGap').addEventListener('input', e => { $('#optGapOut').textContent = e.target.value + ' mm'; app.schedule(); });
+app.render();
+
+/* ---------- download / print ---------- */
+function hiRes() { const c = document.createElement('canvas'); c.width = 2480; c.height = 3508; drawPage(c.getContext('2d'), 2480 / 210, opts()); return c; }
+const toBlob = (cv, type, q) => new Promise(r => cv.toBlob(r, type, q));
+function save(blob, name) {
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+}
+function makePDF(jpeg, w, h) {
+  const enc = new TextEncoder(), parts = [], off = []; let pos = 0;
+  const push = u => { parts.push(u); pos += u.length; }, str = s => push(enc.encode(s));
+  str('%PDF-1.4\n');
+  off[1] = pos; str('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n');
+  off[2] = pos; str('2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n');
+  off[3] = pos; str('3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /XObject << /Im0 5 0 R >> >> /Contents 4 0 R >>\nendobj\n');
+  const cs = 'q 595.28 0 0 841.89 0 0 cm /Im0 Do Q';
+  off[4] = pos; str(`4 0 obj\n<< /Length ${cs.length} >>\nstream\n${cs}\nendstream\nendobj\n`);
+  off[5] = pos; str(`5 0 obj\n<< /Type /XObject /Subtype /Image /Width ${w} /Height ${h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpeg.length} >>\nstream\n`);
+  push(jpeg); str('\nendstream\nendobj\n');
+  const xr = pos; str('xref\n0 6\n0000000000 65535 f \n');
+  for (let i = 1; i <= 5; i++) str(String(off[i]).padStart(10, '0') + ' 00000 n \n');
+  str(`trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xr}\n%%EOF`);
+  return new Blob(parts, { type: 'application/pdf' });
+}
+$('#btnJpg').onclick = async () => save(await toBlob(hiRes(), 'image/jpeg', .95), 'Card-Print-A4.jpg');
+$('#btnPng').onclick = async () => save(await toBlob(hiRes(), 'image/png'), 'Card-Print-A4.png');
+$('#btnPdf').onclick = async () => {
+  const c = hiRes(), jb = await toBlob(c, 'image/jpeg', .95);
+  save(makePDF(new Uint8Array(await jb.arrayBuffer()), c.width, c.height), 'Card-Print-A4.pdf');
+};
+$('#btnFront').onclick = async () => save(await toBlob(sides.front.card, 'image/png'), 'Card-Aage.png');
+$('#btnBack').onclick = async () => save(await toBlob(sides.back.card, 'image/png'), 'Card-Piche.png');
+$('#btnPrint').onclick = () => {
+  const url = hiRes().toDataURL('image/jpeg', .95), fr = document.createElement('iframe');
+  fr.style.cssText = 'position:fixed;right:0;bottom:0;width:1px;height:1px;border:0;opacity:0';
+  fr.srcdoc = `<!DOCTYPE html><html><head><style>@page{size:A4;margin:0}html,body{margin:0;padding:0}img{display:block;width:210mm;height:297mm}</style></head><body><img src="${url}"></body></html>`;
+  fr.onload = () => {
+    const im = fr.contentDocument.images[0], go = () => { fr.contentWindow.focus(); fr.contentWindow.print(); setTimeout(() => fr.remove(), 60000); };
+    im.complete ? go() : (im.onload = go);
+  };
+  document.body.appendChild(fr);
+};
+</script>
+</body>
+</html>
